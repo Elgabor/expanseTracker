@@ -6,6 +6,8 @@
   <title>Budget Tracker</title>
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Chart.js CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body class="bg-gray-100 min-h-screen text-gray-900">
   <div class="max-w-4xl mx-auto p-4">
@@ -108,14 +110,17 @@
           <input id="filter-date" type="date" class="w-full border rounded p-2" />
         </div>
       </div>
+      <div>
+        <button id="clear-filter" class="mt-4 bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded transition-colors duration-200">Cancella i filtri</button>
+      </div>
     </section>
-
   </div>
 
 <!--Script js-->
 <script type="module" src="./js/utils.js"></script>
 <script type="module" src="./js/storage.js"></script>
 <script type="module" src="./js/ui.js"></script>
+<script type="module" src="./js/chart.js"></script>
 <script type="module" src="./js/main.js"></script>
 </body>
 </html>

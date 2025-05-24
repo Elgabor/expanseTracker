@@ -1,5 +1,6 @@
 import { getTransactionsFromStorage, saveTransactionsToStorage } from "./storage.js";
 import { renderTransactionList, updateBalanceUI } from "./ui.js";
+import { processTransactions, processIncome, initChart } from "./chart.js";
 
 // Variabile globale per le transazioni
 let transactions = [];
@@ -9,8 +10,8 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 function initApp() {
-
-
+  //clear filter
+  const clearFilter = document.getElementById('clear-filter'); 
   //filter and function filter
   const filterCategory = document.getElementById('filter-category');
   const filterDate = document.getElementById('filter-date');
@@ -21,9 +22,6 @@ function initApp() {
     const valueCategory = filterCategory.value;  
     const valueDate = filterDate.value;
     let filteredTransactions = [...transactions];
-    console.log(filteredTransactions);
-    console.log(valueCategory);
-    console.log(valueDate);
      // Filtra per categoria se non è "tutte"
      if (valueCategory && valueCategory !== 'tutte') {
           filteredTransactions = filteredTransactions.filter(
@@ -41,17 +39,35 @@ function initApp() {
       // Aggiorna la UI con le transazioni filtrate
       renderTransactionList(filteredTransactions);
       updateBalanceUI(filteredTransactions);
+      processTransactions(filteredTransactions);
+      processIncome(filteredTransactions);
+      initChart(filteredTransactions);
   }
   
+  function clearFilterFunction(){
+    const filterCategory = document.getElementById('filter-category');
+    const filterDate = document.getElementById('filter-date');
+    filterCategory.value = 'tutte';
+    filterDate.value = '';
+
+    renderTransactionList(transactions);
+    updateBalanceUI(transactions);
+    processTransactions(transactions);
+    processIncome(transactions);
+    initChart(transactions);
+  }
+
   filterCategory.addEventListener('change', filterFunction);
   filterDate.addEventListener('change', filterFunction);
-
+  clearFilter.addEventListener('click', clearFilterFunction);
 
   transactions = getTransactionsFromStorage();
 
   renderTransactionList(transactions);
-
+  processTransactions(transactions);
   updateBalanceUI(transactions);
+  processIncome(transactions);
+  initChart(transactions);
 
   let addTransaction = document.getElementById('transaction-form');
   function addTransactionFunction(){
@@ -86,10 +102,13 @@ function initApp() {
       //Update and render
       renderTransactionList(transactions);
       updateBalanceUI(transactions);
+      processTransactions(transactions);
+      processIncome(transactions);
+      initChart(transactions);
     })
   }
 
-  addTransactionFunction()
+  //CALL FUNCTION
+  addTransactionFunction();
 }
-
 
